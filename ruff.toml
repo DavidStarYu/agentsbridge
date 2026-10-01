@@ -1,0 +1,11 @@
+# Ruff configuration
+line-length = 100
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = [
+    "E501",  # line length handled by formatter
+]
+
+[lint.isort]
+known-first-party = ["agentsbridge"]

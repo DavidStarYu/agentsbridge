@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1025"/>
+      <stop offset="100%" stop-color="#0d1b2a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="160" rx="12" fill="url(#bg)"/>
+  <rect x="1" y="1" width="638" height="158" rx="11" fill="none" stroke="#ffffff18"/>
+
+  <!-- terminal window chrome -->
+  <circle cx="28" cy="26" r="5" fill="#ff5f57"/>
+  <circle cx="46" cy="26" r="5" fill="#febc2e"/>
+  <circle cx="64" cy="26" r="5" fill="#28c840"/>
+
+  <!-- title -->
+  <text x="90" y="68" font-family="ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace" font-size="34" font-weight="700" fill="#ffffff">agentsbridge</text>
+  <rect x="90" y="80" width="460" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <!-- command line -->
+  <text x="90" y="116" font-family="ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace" font-size="16" fill="#7ee787">$</text>
+  <text x="106" y="116" font-family="ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace" font-size="16" fill="#e6edf3">agentsbridge sync</text>
+  <rect x="258" y="104" width="9" height="17" fill="#a78bfa">
+    <animate attributeName="fill" values="#a78bfa;#a78bfa00;#a78bfa" dur="1.2s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- arrows: one source -> many targets -->
+  <text x="470" y="116" font-family="ui-monospace, monospace" font-size="13" fill="#8b949e">AGENTS.md</text>
+  <path d="M 555 112 L 590 112" stroke="url(#accent)" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+  <text x="470" y="138" font-family="ui-monospace, monospace" font-size="11" fill="#6e7681">&#8594; CLAUDE.md &#183; Copilot &#183; Cursor &#183; +3</text>
+</svg>
