@@ -31,9 +31,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/agentsbridge/agentsbridge"
-Repository = "https://github.com/agentsbridge/agentsbridge"
-Changelog = "https://github.com/agentsbridge/agentsbridge/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/DavidStarYu/agentsbridge"
+Repository = "https://github.com/DavidStarYu/agentsbridge"
+Changelog = "https://github.com/DavidStarYu/agentsbridge/blob/main/CHANGELOG.md"
 
 [project.scripts]
 agentsbridge = "agentsbridge.cli:main"

@@ -14,7 +14,7 @@ deliberately small — PRs should be too.
 ## Setup
 
 ```bash
-git clone https://github.com/agentsbridge/agentsbridge
+git clone https://github.com/DavidStarYu/agentsbridge
 cd agentsbridge
 pip install -e . pytest ruff
 ```

@@ -4,15 +4,13 @@
 
 **One `AGENTS.md`. Every AI coding tool. Zero drift.**
 
-[![CI](https://github.com/agentsbridge/agentsbridge/actions/workflows/ci.yml/badge.svg)](https://github.com/agentsbridge/agentsbridge/actions/workflows/ci.yml)
+[![CI](https://github.com/DavidStarYu/agentsbridge/actions/workflows/ci.yml/badge.svg)](https://github.com/DavidStarYu/agentsbridge/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/agentsbridge)](https://pypi.org/project/agentsbridge/)
 [![Python](https://img.shields.io/pypi/pyversions/agentsbridge)](https://pypi.org/project/agentsbridge/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 [Bridge](#why) · [Quick start](#quick-start) · [Supported tools](#supported-tools) · [CI drift check](#ci-drift-check) · [FAQ](#faq)
-
-https://github.com/user-attachments/assets/placeholder
 
 </div>
 
@@ -86,7 +84,7 @@ Edit `AGENTS.md`, run `agentsbridge sync`, commit. That's the whole workflow.
 | **Aider** | `CONVENTIONS.md` | |
 | **Codex CLI, Gemini CLI, Jules, Amp, Zed, opencode** | — | read `AGENTS.md` natively, nothing to generate |
 
-Missing a tool? [Open an issue](https://github.com/agentsbridge/agentsbridge/issues) —
+Missing a tool? [Open an issue](https://github.com/DavidStarYu/agentsbridge/issues) —
 adding a target is ~10 lines.
 
 ## Safety
@@ -122,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: agentsbridge/agentsbridge/action@main
+      - uses: DavidStarYu/agentsbridge/action@main
 ```
 
 Or invoke the CLI directly: `agentsbridge check` (exit code 1 on drift).
@@ -156,7 +154,7 @@ is for you.
 ## Development
 
 ```bash
-git clone https://github.com/agentsbridge/agentsbridge
+git clone https://github.com/DavidStarYu/agentsbridge
 cd agentsbridge
 pip install -e . pytest ruff
 pytest            # 36 tests
