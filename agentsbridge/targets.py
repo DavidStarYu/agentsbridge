@@ -60,13 +60,47 @@ TARGETS: dict[str, Target] = {
             style="markdown",
             description="Aider",
         ),
+        Target(
+            name="roo",
+            path=".roo/rules/agentsbridge.md",
+            style="markdown",
+            description="Roo Code / Zoo Code (rules dir)",
+            extra_dirs=(".roo/rules",),
+        ),
+        Target(
+            name="kilocode",
+            path=".kilocode/rules/agentsbridge.md",
+            style="markdown",
+            description="Kilo Code (rules dir)",
+            extra_dirs=(".kilocode/rules",),
+        ),
+        Target(
+            name="junie",
+            path=".junie/guidelines.md",
+            style="markdown",
+            description="JetBrains Junie",
+            extra_dirs=(".junie",),
+        ),
+        Target(
+            name="amazonq",
+            path=".amazonq/rules/agentsbridge.md",
+            style="markdown",
+            description="Amazon Q Developer (rules dir)",
+            extra_dirs=(".amazonq/rules",),
+        ),
+        Target(
+            name="gemini",
+            path="GEMINI.md",
+            style="markdown",
+            description="Gemini CLI (legacy GEMINI.md)",
+        ),
     ]
 }
 
 # Tools that read AGENTS.md natively - no bridging needed, documented only.
 NATIVE_TOOLS = [
     "Codex CLI",
-    "Gemini CLI",
+    "Gemini CLI (recent versions)",
     "Jules",
     "Amp",
     "Zed",

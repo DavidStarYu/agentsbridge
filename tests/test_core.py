@@ -90,6 +90,50 @@ class TestSync:
         assert all(r.action == "updated" for r in results)
         assert "rule b" in (tmp_path / "CLAUDE.md").read_text(encoding="utf-8")
 
+    def test_new_targets_generated(self, tmp_path):
+        write_agents_md(tmp_path)
+        core.sync(tmp_path)
+        assert (tmp_path / ".roo" / "rules" / "agentsbridge.md").is_file()
+        assert (tmp_path / ".kilocode" / "rules" / "agentsbridge.md").is_file()
+        assert (tmp_path / ".junie" / "guidelines.md").is_file()
+        assert (tmp_path / ".amazonq" / "rules" / "agentsbridge.md").is_file()
+        assert (tmp_path / "GEMINI.md").is_file()
+
+
+class TestTargetsEnv:
+    def test_env_var_pins_subset(self, tmp_path, monkeypatch):
+        write_agents_md(tmp_path)
+        monkeypatch.setenv("AGENTSBRIDGE_TARGETS", "claude,roo")
+        results = core.sync(tmp_path)
+        assert {r.target for r in results} == {"claude", "roo"}
+        assert (tmp_path / "CLAUDE.md").is_file()
+        assert not (tmp_path / "CONVENTIONS.md").exists()
+
+    def test_explicit_targets_override_env(self, tmp_path, monkeypatch):
+        write_agents_md(tmp_path)
+        monkeypatch.setenv("AGENTSBRIDGE_TARGETS", "claude")
+        results = core.sync(tmp_path, selected=["roo"])
+        assert {r.target for r in results} == {"roo"}
+
+    def test_env_var_applies_to_check(self, tmp_path, monkeypatch):
+        write_agents_md(tmp_path)
+        core.sync(tmp_path, selected=["claude"])
+        monkeypatch.setenv("AGENTSBRIDGE_TARGETS", "claude")
+        clean, _ = core.check(tmp_path)
+        assert clean
+
+
+class TestRelativeDisplay:
+    def test_posix_style_relative(self, tmp_path):
+        p = tmp_path / ".cursor" / "rules" / "agentsbridge.mdc"
+        assert core.relative_display(p, tmp_path) == ".cursor/rules/agentsbridge.mdc"
+
+    def test_nested_root(self, tmp_path):
+        root = tmp_path / "proj"
+        root.mkdir()
+        p = root / "CLAUDE.md"
+        assert core.relative_display(p, root) == "CLAUDE.md"
+
 
 class TestCheck:
     def test_clean_after_sync(self, tmp_path):

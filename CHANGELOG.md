@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-02
+
+### Added
+
+- Five new targets: **Roo Code / Zoo Code** (`.roo/rules/agentsbridge.md`),
+  **Kilo Code** (`.kilocode/rules/agentsbridge.md`), **JetBrains Junie**
+  (`.junie/guidelines.md`), **Amazon Q Developer**
+  (`.amazonq/rules/agentsbridge.md`), and legacy **Gemini CLI** (`GEMINI.md`).
+- `agentsbridge list` — show all supported targets, generated paths, and
+  native-AGENTS.md tools in the terminal.
+- `AGENTSBRIDGE_TARGETS` environment variable — pin a target subset for CI
+  without repeating `-t`; explicit `--targets` takes precedence.
+- `check` drift summary now includes per-status counts
+  (e.g. `drift detected (3 drifted, 2 missing)`).
+
+### Changed
+
+- CLI output shows paths relative to the project root with forward slashes,
+  consistent across Windows/macOS/Linux.
+
 ## [0.1.0] - 2026-10-01
 
 ### Added

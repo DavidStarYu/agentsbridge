@@ -53,6 +53,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_init = sub.add_parser("init", help="create a starter AGENTS.md")
     p_init.add_argument("--force", action="store_true", help="overwrite existing AGENTS.md")
 
+    sub.add_parser(
+        "list",
+        help="list all supported targets and the files they generate",
+    )
+
     return parser
 
 
@@ -90,7 +95,7 @@ def cmd_sync(args: argparse.Namespace) -> int:
             "missing": "?",
         }.get(r.action, " ")
         detail = f"  ({r.detail})" if r.detail else ""
-        print(f"  {icon} {r.action:<9} {r.path}{detail}")
+        print(f"  {icon} {r.action:<9} {core.relative_display(r.path, root)}{detail}")
     created = sum(1 for r in results if r.action in ("created", "updated"))
     skipped = sum(1 for r in results if r.action == "skipped")
     print(
@@ -115,11 +120,15 @@ def cmd_check(args: argparse.Namespace) -> int:
     for r in results:
         icon = {"ok": "=", "drifted": "!", "missing": "?", "skipped": "-"}.get(r.action, " ")
         detail = f"  ({r.detail})" if r.detail else ""
-        print(f"  {icon} {r.action:<9} {r.path}{detail}")
+        print(f"  {icon} {r.action:<9} {core.relative_display(r.path, root)}{detail}")
     if clean:
         print("\nall target files are up to date")
         return 0
-    print("\ndrift detected: run `agentsbridge sync` to fix", file=sys.stderr)
+    counts: dict[str, int] = {}
+    for r in results:
+        counts[r.action] = counts.get(r.action, 0) + 1
+    summary = ", ".join(f"{v} {k}" for k, v in sorted(counts.items()) if k != "ok")
+    print(f"\ndrift detected ({summary}): run `agentsbridge sync` to fix", file=sys.stderr)
     return 1
 
 
@@ -153,11 +162,24 @@ def cmd_init(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_list(args: argparse.Namespace) -> int:
+    del args  # unused; kept for uniform command signature
+    from .targets import NATIVE_TOOLS, TARGETS
+
+    name_width = max(len(t.name) for t in TARGETS.values())
+    for t in sorted(TARGETS.values(), key=lambda t: t.name):
+        print(f"  {t.name:<{name_width}}  {t.path:<36} {t.description}")
+    print(f"\n  {'(native)':<{name_width}}  read AGENTS.md directly, nothing generated:")
+    print("    " + ", ".join(NATIVE_TOOLS))
+    return 0
+
+
 COMMANDS = {
     "sync": cmd_sync,
     "check": cmd_check,
     "import": cmd_import,
     "init": cmd_init,
+    "list": cmd_list,
 }
 
 

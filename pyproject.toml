@@ -4,15 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentsbridge"
-version = "0.1.0"
-description = "Bridge AGENTS.md to every AI coding tool's rules file - one source of truth for Claude Code, Copilot, Cursor, Windsurf, Cline, and Aider."
+version = "0.2.0"
+description = "Bridge AGENTS.md to every AI coding tool's rules file - one source of truth for Claude Code, Copilot, Cursor, Windsurf, Cline, Aider, Roo Code, Kilo Code, Junie, and Amazon Q."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "agentsbridge contributors" }]
 keywords = [
     "agents-md", "claude", "claude-code", "cursor", "copilot", "windsurf",
-    "cline", "aider", "ai", "rules", "cli", "developer-tools",
+    "cline", "aider", "roo-code", "kilo-code", "junie", "amazon-q", "gemini",
+    "ai", "rules", "cli", "developer-tools",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

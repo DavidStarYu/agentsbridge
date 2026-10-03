@@ -66,8 +66,13 @@ agentsbridge sync
   + created   .windsurfrules
   + created   .clinerules
   + created   CONVENTIONS.md
+  + created   .roo/rules/agentsbridge.md
+  + created   .kilocode/rules/agentsbridge.md
+  + created   .junie/guidelines.md
+  + created   .amazonq/rules/agentsbridge.md
+  + created   GEMINI.md
 
-wrote 6 file(s)
+wrote 11 file(s)
 ```
 
 Edit `AGENTS.md`, run `agentsbridge sync`, commit. That's the whole workflow.
@@ -79,10 +84,17 @@ Edit `AGENTS.md`, run `agentsbridge sync`, commit. That's the whole workflow.
 | **Claude Code** | `CLAUDE.md` | |
 | **GitHub Copilot** | `.github/copilot-instructions.md` | |
 | **Cursor** | `.cursor/rules/agentsbridge.mdc` | with `alwaysApply` frontmatter |
+| **Roo Code / Zoo Code** | `.roo/rules/agentsbridge.md` | |
+| **Kilo Code** | `.kilocode/rules/agentsbridge.md` | |
+| **JetBrains Junie** | `.junie/guidelines.md` | |
+| **Amazon Q Developer** | `.amazonq/rules/agentsbridge.md` | |
 | **Windsurf** | `.windsurfrules` | |
 | **Cline** | `.clinerules` | |
 | **Aider** | `CONVENTIONS.md` | |
+| **Gemini CLI (legacy)** | `GEMINI.md` | recent versions read `AGENTS.md` natively |
 | **Codex CLI, Gemini CLI, Jules, Amp, Zed, opencode** | — | read `AGENTS.md` natively, nothing to generate |
+
+Run `agentsbridge list` to see this table in your terminal.
 
 Missing a tool? [Open an issue](https://github.com/DavidStarYu/agentsbridge/issues) —
 adding a target is ~10 lines.
@@ -104,6 +116,10 @@ agentsbridge sync --force        # adopt existing files
 agentsbridge sync --dry-run      # preview changes
 agentsbridge sync -t claude,copilot   # subset of targets
 ```
+
+**Tip:** set `AGENTSBRIDGE_TARGETS=claude,copilot` in your environment (e.g. CI)
+to pin a subset without repeating `-t` on every invocation. Explicit `-t`
+always wins over the env var.
 
 ## CI drift check
 
@@ -157,7 +173,7 @@ is for you.
 git clone https://github.com/DavidStarYu/agentsbridge
 cd agentsbridge
 pip install -e . pytest ruff
-pytest            # 36 tests
+pytest            # 47 tests
 ruff check .
 ```
 

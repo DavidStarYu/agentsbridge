@@ -76,3 +76,43 @@ class TestVersion:
             cli.main(["--version"])
         assert e.value.code == 0
         assert "agentsbridge" in capsys.readouterr().out
+
+
+class TestListCommand:
+    def test_lists_all_targets(self, capsys):
+        assert cli.main(["list"]) == 0
+        out = capsys.readouterr().out
+        for target in ("claude", "copilot", "cursor", "roo", "kilocode", "junie", "amazonq"):
+            assert target in out
+        assert "CLAUDE.md" in out
+        assert ".roo/rules/agentsbridge.md" in out
+
+    def test_mentions_native_tools(self, capsys):
+        assert cli.main(["list"]) == 0
+        out = capsys.readouterr().out
+        assert "Codex CLI" in out
+
+
+class TestEnvTargets:
+    def test_sync_respects_env(self, project, monkeypatch, capsys):
+        monkeypatch.setenv("AGENTSBRIDGE_TARGETS", "claude")
+        assert cli.main(["sync"]) == 0
+        assert (project / "CLAUDE.md").is_file()
+        assert not (project / "CONVENTIONS.md").exists()
+
+
+class TestCheckSummary:
+    def test_drift_message_has_counts(self, project, capsys):
+        cli.main(["sync"])
+        (project / "AGENTS.md").write_text("# Rules\n\n- be nice\n- be kind\n", encoding="utf-8")
+        assert cli.main(["check"]) == 1
+        err = capsys.readouterr().err
+        assert "drifted" in err
+        assert "missing" not in err
+
+    def test_drift_message_includes_missing(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / "AGENTS.md").write_text("# Rules\n\n- x\n", encoding="utf-8")
+        assert cli.main(["check"]) == 1
+        err = capsys.readouterr().err
+        assert "missing" in err

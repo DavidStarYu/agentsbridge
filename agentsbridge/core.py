@@ -10,6 +10,9 @@ from .targets import GENERATED_MARKER, TARGETS, Target, render
 
 SOURCE_FILENAME = "AGENTS.md"
 
+# Env var that pins a target subset (used in CI to avoid repeating -t).
+TARGETS_ENV_VAR = "AGENTSBRIDGE_TARGETS"
+
 # Files agentsbridge knows how to import from, in priority order.
 IMPORT_SOURCES = [
     "CLAUDE.md",
@@ -128,6 +131,9 @@ def check(root: Path, selected: list[str] | None = None) -> tuple[bool, list[Syn
 
 def resolve_targets(selected: list[str] | None) -> list[Target]:
     if not selected:
+        env = os.environ.get(TARGETS_ENV_VAR, "").strip()
+        selected = [v.strip() for v in env.split(",") if v.strip()] or None
+    if not selected:
         return list(TARGETS.values())
     unknown = [s for s in selected if s not in TARGETS]
     if unknown:
@@ -160,9 +166,10 @@ def init_template() -> str:
     return """# Coding Agent Rules
 
 <!-- Edit this file. Run `agentsbridge sync` to propagate changes to
-     CLAUDE.md, .github/copilot-instructions.md, Cursor, Windsurf, Cline,
-     Aider, and more. Tools that read AGENTS.md natively (Codex CLI,
-     Gemini CLI, Jules, Amp, Zed) need no bridging. -->
+     CLAUDE.md, .github/copilot-instructions.md, Cursor, Roo Code, Kilo Code,
+     Junie, Amazon Q, Windsurf, Cline, Aider, GEMINI.md, and more.
+     Tools that read AGENTS.md natively (Codex CLI, Gemini CLI, Jules, Amp,
+     Zed) need no bridging. Run `agentsbridge list` to see all targets. -->
 
 ## General
 
@@ -189,6 +196,15 @@ def ensure_agents_md(root: Path, template: str | None = None, dry_run: bool = Fa
     if not dry_run:
         path.write_text(content, encoding="utf-8")
     return SyncResult("agents", path, "created")
+
+
+def relative_display(path: Path, root: Path) -> str:
+    """Path relative to root, always with forward slashes (stable across OSes)."""
+    try:
+        rel = path.relative_to(root).as_posix()
+    except ValueError:  # pragma: no cover - path outside root
+        rel = path.as_posix()
+    return rel
 
 
 def walk_up(start: Path) -> Path:
